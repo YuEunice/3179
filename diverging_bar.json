@@ -1,0 +1,105 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "A population pyramid for deaths of male and female by state in Malaysia, 2022",
+    "data": {
+      "url": "https://raw.githubusercontent.com/YuEunice/3179/main/data/total%20death.csv",
+      "format": {
+        "type": "csv"
+      }
+    },
+    "transform": [
+      {
+        "fold": ["Deaths(Male)", "Deaths(Female)"],
+        "as": ["Gender", "Deaths"]
+      },
+      {
+        "calculate": "datum.Gender == 'Deaths(Male)' ? 'Male' : 'Female'",
+        "as": "GenderLabel"
+      },
+      {
+        "calculate": "datum.Gender == 'Deaths(Male)' ? -datum.Deaths : datum.Deaths",
+        "as": "TotalDeaths"
+      }
+    ],
+     "title": {
+      "text": "Population Pyramid of Deaths by Gender and State in Malaysia (2022)",
+      "fontSize": 14,
+      "anchor": "middle"  
+    },
+    "width": 400,
+    "height": 400,
+    "params": [
+      {
+        "name": "Gender_Selection",  
+        "value": null, 
+        "bind": {
+          "input": "select", 
+          "options": [null, "Male", "Female"],  
+          "labels": ["All Genders", "Male", "Female"],
+          "name": "Gender Selection: "  
+        }
+      }
+    ],
+    "mark": "bar",
+    "encoding": {
+      "y": {
+        "field": "State",
+        "type": "nominal",
+        "axis": {
+          "title": "States"
+        },
+        "sort": "-x"
+      },
+      "x": {
+        "field": "TotalDeaths",
+        "type": "quantitative",
+        "title": "Total Deaths",
+        "axis": {
+          "format": "s"
+        },
+        "scale": {
+          "domain": [-20000, 20000]
+        }
+      },
+      "color": {
+        "field": "GenderLabel",
+        "type": "nominal",
+        "scale": {
+          "range": ["#FF8F98", "#59A2DE"]
+        },
+        "legend": {
+          "title": "Gender",
+          "orient": "top-right"
+        }
+      },
+      "tooltip": [
+        {
+          "field": "State",
+          "type": "nominal",
+          "title": "State"
+        },
+        {
+          "field": "GenderLabel",
+          "type": "nominal",
+          "title": "Gender"
+        },
+        {
+          "field": "Deaths",
+          "type": "quantitative",
+          "title": "Deaths"
+        }
+      ],
+      "opacity": {
+        "condition": {
+          "test": "Gender_Selection === null || datum.GenderLabel === Gender_Selection",  
+          "value": 1
+        },
+        "value": 0.6  
+      }
+    },
+    "config": {
+      "view": {"stroke": null},
+      "axis": {"grid": false}
+    }
+  }
+  

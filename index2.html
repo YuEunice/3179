@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crude Death Rate and Total Deaths by State in Malaysia, 2022</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.21.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.2.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.20.0"></script>
+    <style>
+        body {
+            background-color: rgb(231, 236, 240);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: 'Impact', fantasy;
+            font-size: 2.5em;
+            color: #4b4243;
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Overview of Deaths by State in Malaysia, 2022</h1>
+    <div id="choropleth_map"></div>
+    <div id="diverging_bar"></div>
+
+
+    <script type="text/javascript">
+        var spec = "choropleth.json";
+        vegaEmbed('#choropleth_map', spec).then(function(result) {
+            // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+        }).catch(console.error);
+
+        var spec = "diverging_bar.json";
+        vegaEmbed('#diverging_bar', spec).then(function(result) {
+            // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+        }).catch(console.error);
+    </script>
+
+</body>
+
+</html>

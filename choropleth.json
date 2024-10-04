@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "Crude Death Rate by States in Malaysia, 2022",
+  "title": "Crude Death Rate by State in Malaysia, 2022",
   "width": 800,
   "height": 450,
   "projection": {
@@ -60,7 +60,7 @@
           "lookup": "properties.name",
           "from": {
             "data": {
-              "url": "https://raw.githubusercontent.com/YuEunice/3179/main/FIT%203179%20Homework%20Assessment%20Week%209/data/total%20death.csv",
+              "url": "https://raw.githubusercontent.com/YuEunice/3179/main/data/total%20death.csv",
               "format": {
                 "type": "csv"
               }
