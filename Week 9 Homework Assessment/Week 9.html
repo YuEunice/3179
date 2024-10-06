@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crude Death Rate and Total Deaths by State in Malaysia, 2022</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.21.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.2.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.20.0"></script>
+</head>
+
+<body>
+
+    <div id="vis"></div>
+
+    <script type="text/javascript">
+        const spec = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "title": "Crude Death Rate and Total Deaths by State in Malaysia, 2022",
+            "width": 800,
+            "height": 380,
+            "projection": {
+                "type": "equalEarth",
+                "center": [110, 3],
+                "scale": 2500
+            },
+            "layer": [
+                {
+                    "data": {
+                        "url": "https://raw.githubusercontent.com/YuEunice/3179/main/malaysia.state.json",
+                        "format": {
+                            "type": "topojson",
+                            "feature": "malaysia.state"
+                        }
+                    },
+                    "transform": [
+                        {
+                            "calculate": "'Data is not available in ' + datum.properties.name",
+                            "as": "note"
+                        }
+                    ],
+                    "mark": {
+                        "type": "geoshape",
+                        "fill": "lightgray",
+                        "stroke": "white"
+                    },
+                    "encoding": {
+                        "tooltip": { "field": "note" }
+                    }
+                },
+
+                {
+                    "data": {
+                        "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson",
+                        "format": { "type": "topojson", "feature": "oceans" }
+                    },
+                    "mark": { "type": "geoshape", "fill": "#deebf7" }
+                },
+                {
+                    "data": {
+                        "url": "https://raw.githubusercontent.com/YuEunice/3179/main/ne_110m_graticules_1.json",
+                        "format": { "type": "topojson", "feature": "ne_110m_graticules_1" }
+                    },
+                    "mark": { "type": "geoshape", "fill": null, "stroke": "lightgray" }
+                },
+                {
+                    "data": {
+                        "url": "https://raw.githubusercontent.com/YuEunice/3179/main/malaysia.state.json",
+                        "format": {
+                            "type": "topojson",
+                            "feature": "malaysia.state"
+                        }
+                    },
+                    "transform": [
+                        {
+                            "lookup": "properties.name",
+                            "from": {
+                                "data": {
+                                    "url": "https://raw.githubusercontent.com/YuEunice/3179/main/FIT%203179%20Homework%20Assessment%20Week%209/data/total%20death.csv",
+                                    "format": {
+                                        "type": "csv"
+                                    }
+                                },
+                                "key": "State",
+                                "fields": ["Crude death rate", "Deaths"]
+                            }
+                        }
+                    ],
+                    "mark": {
+                        "type": "geoshape",
+                        "stroke": "black",
+                        "strokeWidth": 0.5
+                    },
+                    "encoding": {
+                        "color": {
+                            "field": "Crude death rate",
+                            "type": "quantitative",
+                            "scale": {
+                                "type": "threshold",
+                                "domain": [2, 3, 4, 5, 6, 7, 8],
+                                "range": ["#fee0d2", "#fcbba1", "#fc9272", "#fb6a4a", "#ef3b2c", "#cb181d", "#a50f15", "#67000d"]
+
+                            },
+                            "title": "Deaths per 1,000 population"
+                        },
+                        "tooltip": [
+                            {
+                                "field": "properties.name",
+                                "type": "nominal",
+                                "title": "State"
+                            },
+                            {
+                                "field": "Deaths",
+                                "type": "quantitative",
+                                "title": "Total Deaths"
+                            },
+                            {
+                                "field": "Crude death rate",
+                                "type": "quantitative",
+                                "title": "Crude Death Rate (per 1,000 population)"
+                            }
+                        ]
+                    }
+                }
+            ]
+        };
+
+
+        vegaEmbed('#vis', spec);
+    </script>
+
+</body>
+
+</html>
